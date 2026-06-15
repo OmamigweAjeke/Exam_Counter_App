@@ -1,0 +1,17 @@
+{
+  "short_name": "ExamTimer",
+  "name": "Exam Success Countdown & Word",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3652/3652191.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "background_color": "#ffffff",
+  "theme_color": "#36454F",
+  "display": "standalone",
+  "orientation": "portrait"
+}

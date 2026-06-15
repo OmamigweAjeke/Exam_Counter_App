@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Countdown</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Link the Manifest file -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Register the Service Worker script via an inline script tag -->
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker Registered!', reg))
+          .catch(err => console.log('Service Worker registration failed: ', err));
+        });
+      }
+    </script>
+
+    <!-- 1. Fetch the official OneSignal Web Engine script -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+    <!-- 2. Initialize the Hybrid Listener -->
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+        OneSignal.init({
+          appId: "YOUR_ONESIGNAL_APP_ID", // <-- Replace with your real OneSignal App ID
+          safari_web_id: "web.onesignal.auto.xxxxxx", // OneSignal sets this if needed for iOS tracking
+          notifyButton: { enable: false } // Hides their default bell widget icon
+        });
+      });
+    </script>
+</head>
+<body>
+
+  <div class="app-container">
+      <button id="settings-btn" onclick="toggleSettings()">⚙️ Edit Target</button>
+
+      <div id="settings-panel" class="hidden">
+          <input type="text" id="input-title" placeholder="e.g., Final Exams">
+          <input type="datetime-local" id="input-date">
+          <button id="save-btn" onclick="saveSettings()">Save Target</button>
+      </div>
+
+      <h2 id="app-title">Final Exams 📚</h2>
+      <p id="target-date-display">Loading date...</p>
+
+      <div id="countdown-box">
+          <div class="flip-card"><div class="card-number" id="days">00</div><div class="card-label">Days</div></div>
+          <div class="flip-card"><div class="card-number" id="hours">00</div><div class="card-label">Hours</div></div>
+          <div class="flip-card"><div class="card-number" id="minutes">00</div><div class="card-label">Mins</div></div>
+      </div>
+
+      <p class="exam-wish-text">Wishing you success in your Exams ✨</p>
+
+      <hr>
+
+      <div class="verse-container">
+          <h3>Daily Bread 🙏</h3>
+          <p id="verse-text">Loading today's encouraging word...</p>
+          <span id="verse-ref"></span>
+      </div>
+
+      <footer class="app-footer">
+          Designed by <span class="designer-name">Mamus</span>
+      </footer>
+  </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
