@@ -274,35 +274,46 @@ h3 {
 }
 
 /* ==========================================================================
-   9. FIXED MOBILE RESPONSIVENESS OVERRIDES (Massive Numbers Restored!)
+   9. HARDENED MOBILE RESPONSIVENESS OVERRIDES (Massive Numbers Restored!)
    ========================================================================== */
-@media (max-width: 375px) {
+@media (max-width: 430px) { /* Widened from 375px to capture all modern mobile displays */
     body {
         padding: 10px;
     }
+    
     .app-container {
-        padding: 30px 12px 20px 12px;
+        padding: 30px 14px 20px 14px;
     }
+    
     #countdown-box {
-        gap: 6px; /* Tighter card gaps for smaller mobile layouts */
+        gap: 6px; /* Restores snug spacing so boxes don't wrap to a new line */
     }
+    
     .flip-card {
-        padding: 16px 2px;
+        padding: 18px 2px; /* Extra vertical padding to balance the massive text */
     }
+    
     .card-number {
-        font-size: 2.5rem; /* Overridden from 1.75rem to look properly massive and punchy! */
+        /* 🚀 FORCES THE DIGITS TO BE BOLD AND MASSIVE ON MOBILE INTERFACES */
+        font-size: 2.85rem !important; 
         font-weight: 800;
+        line-height: 1;
+        letter-spacing: -1px;
     }
+    
     .card-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.3px;
+        font-size: 0.62rem;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
     }
+    
     .exam-wish-text {
         font-size: 0.95rem;
         margin-bottom: 20px;
     }
+    
     #verse-text {
-        font-size: 0.95rem;
+        font-size: 0.98rem;
         line-height: 1.5;
     }
 }
