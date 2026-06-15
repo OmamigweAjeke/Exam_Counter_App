@@ -6,7 +6,7 @@ importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
 // ==========================================================================
 // 2. OFFLINE STORAGE ENGINE CONFIGURATION
 // ==========================================================================
-const CACHE_NAME = 'exam-timer-v1';
+const CACHE_NAME = 'exam-timer-v2';
 const ASSETS = [
   './',
   './index.html',
