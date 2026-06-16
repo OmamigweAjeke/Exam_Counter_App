@@ -35,13 +35,13 @@ function loadSavedSettings() {
 }
 
 // ==========================================================================
-// 2. THE HYBRID CORE SAVE SYSTEM
+// 2. THE LOCAL CORE SAVE SYSTEM (100% Independent)
 // ==========================================================================
 function saveSettings() {
     const inputTitle = document.getElementById("input-title").value;
     const inputDateRaw = document.getElementById("input-date").value;
     
-    // 🚀 FIXED: Defensive check prevents app crash if input-alarm-date is missing from HTML
+    // Defensive check: reads the alarm time if it exists in your HTML panel
     const alarmInputEl = document.getElementById("input-alarm-date");
     const inputAlarmRaw = alarmInputEl ? alarmInputEl.value : ""; 
 
@@ -50,34 +50,21 @@ function saveSettings() {
         return;
     }
 
-    // Save core settings straight to internal device memory
+    // Save countdown tracking straight to local device hardware memory
     const convertedTimestamp = new Date(inputDateRaw).getTime();
     localStorage.setItem("customTitle", `Target: ${inputTitle}`);
     localStorage.setItem("customDate", convertedTimestamp);
 
-    // Check if user set a custom warning/alarm date
+    // If the user picked a reminder alarm time, arm the local hardware alarm loop
     if (inputAlarmRaw) {
         const alarmTimestamp = new Date(inputAlarmRaw).getTime();
         localStorage.setItem("customAlarmTime", alarmTimestamp);
 
-        // Kill any existing alarm loop before constructing the new one
+        // Clear any old ticking loops before starting the fresh tracker alarm
         clearInterval(localAlarmHeartbeat);
         activateOfflineAlarmMonitor(alarmTimestamp);
-
-        // --- HYBRID EXTRAPOLATION: SHIP DATA TAGS TO ONESIGNAL CLOUD ---
-        window.OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            // Convert user's local date input into standard global ISO text string
-            let cleanISOString = new Date(inputAlarmRaw).toISOString();
-
-            // Assigns tag straight to this specific device token on the server
-            OneSignal.sendTags({
-                "user_alarm_time": cleanISOString,
-                "target_title": inputTitle
-            }).then(() => {
-                console.log("OneSignal Server Synchronization Complete!");
-            });
-        });
+        
+        console.log("Local device alarm successfully armed!");
     }
 
     toggleSettings();
