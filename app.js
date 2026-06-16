@@ -152,29 +152,58 @@ function startCountdownEngine() {
     }, 1000);
 }
 
+// ==========================================================================
+// 4. BIBLE SCRIPTURE ENGINE (Hardcoded NKJV/MSB Offline Array)
+// ==========================================================================
+const modernVerses = [
+    {
+        ref: "Philippians 4:6-7 (NKJV)",
+        text: "Be anxious for nothing, but in everything by prayer and supplication, with thanksgiving, let your requests be made known to God; and the peace of God, which surpasses all understanding, will guard your hearts and minds through Christ Jesus."
+    },
+    {
+        ref: "James 1:5 (NKJV)",
+        text: "If any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him."
+    },
+    {
+        ref: "2 Timothy 1:7 (NKJV)",
+        text: "For God has not given us a spirit of fear, but of power and of love and of a sound mind."
+    },
+    {
+        ref: "Colossians 3:23 (MSB)",
+        text: "Do your best, work from the heart for your real Master, for God, confident that you'll get paid in full when you come into your inheritance."
+    },
+    {
+        ref: "Isaiah 41:10 (NKJV)",
+        text: "Fear not, for I am with you; be not dismayed, for I am your God. I will strengthen you, yes, I will help you, I will uphold you with My righteous right hand."
+    },
+    {
+        ref: "Proverbs 3:5-6 (NKJV)",
+        text: "Trust in the Lord with all your heart, and lean not on your own understanding; in all your ways acknowledge Him, and He shall direct your paths."
+    },
+    {
+        ref: "Joshua 1:9 (NKJV)",
+        text: "Have I not commanded you? Be strong and of good courage; do not be afraid, nor be dismayed, for the Lord your God is with you wherever you go."
+    },
+    {
+        ref: "Psalm 121:1-2 (NKJV)",
+        text: "I will lift up my eyes to the hills—from whence comes my help? My help comes from the Lord, who made heaven and earth."
+    }
+];
+
 function fetchDailyMotivationalVerse() {
     const now = new Date();
     const startOfYear = new Date(now.getFullYear(), 0, 0);
     const diff = now - startOfYear;
     const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    // Cycle cleanly through our specific translation array
+    const verseIndex = dayOfYear % modernVerses.length;
+    const todaysVerse = modernVerses[verseIndex];
 
-    const referenceIndex = dayOfYear % examReferences.length;
-    const todaysReference = examReferences[referenceIndex];
-
-    // UPDATED: Added '?translation=kjv' to force the King James Version text
-    fetch(`https://bible-api.com/${todaysReference}?translation=kjv`)
-        .then(res => res.ok ? res.json() : Promise.reject())
-        .then(data => {
-            document.getElementById("verse-text").innerHTML = `"${data.text.trim()}"`;
-            document.getElementById("verse-ref").innerHTML = data.reference + " (KJV)";
-        })
-        .catch(() => {
-            // Backup fallback verse styled in KJV phrasing just in case of network drops
-            document.getElementById("verse-text").innerHTML = '"I can do all things through Christ which strengtheneth me."';
-            document.getElementById("verse-ref").innerHTML = "Philippians 4:13 (KJV)";
-        });
+    // Push straight to your HTML boxes instantly with zero network delay!
+    document.getElementById("verse-text").innerHTML = `"${todaysVerse.text}"`;
+    document.getElementById("verse-ref").innerHTML = todaysVerse.ref;
 }
-
 // Request permission automatically from the operating system browser framework
 if ("Notification" in window && Notification.permission !== "granted") {
     Notification.requestPermission();
