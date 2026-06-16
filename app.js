@@ -40,7 +40,10 @@ function loadSavedSettings() {
 function saveSettings() {
     const inputTitle = document.getElementById("input-title").value;
     const inputDateRaw = document.getElementById("input-date").value;
-    const inputAlarmRaw = document.getElementById("input-alarm-date").value; // User-selected alarm timestamp
+    
+    // 🚀 FIXED: Defensive check prevents app crash if input-alarm-date is missing from HTML
+    const alarmInputEl = document.getElementById("input-alarm-date");
+    const inputAlarmRaw = alarmInputEl ? alarmInputEl.value : ""; 
 
     if (!inputTitle || !inputDateRaw) {
         alert("Please provide both a title and a target date!");
@@ -153,7 +156,7 @@ function startCountdownEngine() {
 }
 
 // ==========================================================================
-// 4. BIBLE SCRIPTURE ENGINE (Hardcoded NKJV/MSB Offline Array)
+// 5. BIBLE SCRIPTURE ENGINE (Hardcoded NKJV/MSB Offline Array)
 // ==========================================================================
 const modernVerses = [
     {
@@ -196,14 +199,13 @@ function fetchDailyMotivationalVerse() {
     const diff = now - startOfYear;
     const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
     
-    // Cycle cleanly through our specific translation array
     const verseIndex = dayOfYear % modernVerses.length;
     const todaysVerse = modernVerses[verseIndex];
 
-    // Push straight to your HTML boxes instantly with zero network delay!
     document.getElementById("verse-text").innerHTML = `"${todaysVerse.text}"`;
     document.getElementById("verse-ref").innerHTML = todaysVerse.ref;
 }
+
 // Request permission automatically from the operating system browser framework
 if ("Notification" in window && Notification.permission !== "granted") {
     Notification.requestPermission();
